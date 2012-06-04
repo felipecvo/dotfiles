@@ -1,0 +1,30 @@
+[color]
+	ui = auto
+[user]
+	name = Felipe Oliveira
+	email = felipe.oliveira@abril.com.br
+[push]
+	default = current
+[github]
+	token = 330ce031e9344ed1f92aceb673fe5919
+	user = felipecvo
+[alias]
+  st = status
+  ci = commit
+  br = branch
+  co = checkout
+  df = diff
+  lg = log -p
+  who = shortlog -s --
+  pr = pull --rebase
+	amend = commit --amend -C HEAD
+[color "status"]
+  changed = yellow
+[core]
+	excludesfile = /Users/feoliveira/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
