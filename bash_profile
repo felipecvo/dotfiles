@@ -28,7 +28,7 @@ PS1=$PS1'\[\033[00;32m\]]\n\$\[\033[00m\] '
 [[ -s "$HOME/.bash_exports" ]] && . "$HOME/.bash_exports"
 [[ -s "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
 
-if [ -f `which brew` ] && [ -f `brew --prefix`/etc/bash_completion ]; then
+if [ `which brew 2> /dev/null` ] && [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
