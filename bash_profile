@@ -1,3 +1,5 @@
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_COMPLETION=/usr/local/git/contrib/completion/git-completion.bash
 [[ -s $GIT_COMPLETION ]] && source $GIT_COMPLETION
 
