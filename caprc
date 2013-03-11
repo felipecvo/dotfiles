@@ -1,11 +1,15 @@
-require 'capistrano_colors'
+begin
+  require 'capistrano_colors'
 
-capistrano_color_matchers = [
-     { :match => /command finished/,       :color => :hide,      :prio => 10 },
-     { :match => /executing command/,      :color => :blue,      :prio => 10, :attribute => :bright },
-     { :match => /^transaction: commit$/,  :color => :red,       :prio => 10, :attribute => :blink  },
-     { :match => /^servers:/,              :color => :cyan,      :prio => 10, :attribute => :bright },
-     { :match => /git/,                    :color => :red,       :prio => 20, :attribute => :bright }
-]
+  capistrano_color_matchers = [
+       { :match => /command finished/,       :color => :hide,      :prio => 10 },
+       { :match => /executing command/,      :color => :blue,      :prio => 10, :attribute => :bright },
+       { :match => /^transaction: commit$/,  :color => :red,       :prio => 10, :attribute => :blink  },
+       { :match => /^servers:/,              :color => :cyan,      :prio => 10, :attribute => :bright },
+       { :match => /git/,                    :color => :red,       :prio => 20, :attribute => :bright }
+  ]
 
-colorize( capistrano_color_matchers )
+  colorize( capistrano_color_matchers )
+rescue LoadError
+  puts "NO COLORS"
+end
