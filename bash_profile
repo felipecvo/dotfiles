@@ -19,7 +19,7 @@ fn_exists()
 }
 
 PS1='\[\033[00;32m\][\u\[\033[0;31m\]@\[\033[01;32m\]\h:\[\033[01;31m\]\w'
-if fn_exists "__rvm_ps1"; then
+if [ -s "$HOME/.rvm/bin/rvm-prompt" ] && fn_exists "__rvm_ps1"; then
   PS1=$PS1'\[\033[0;36m\]$(__rvm_ps1)'
 fi
 if fn_exists "__git_ps1"; then
@@ -38,3 +38,12 @@ fi
 [[ -s "$HOME/.nvm/nvm.sh" ]] && . "$HOME/.nvm/nvm.sh"
 
 # vim:ft=sh:
+
+# {{{
+# Node Completion - Auto-generated, do not touch.
+shopt -s progcomp
+for f in $(command ls ~/.node-completion); do
+  f="$HOME/.node-completion/$f"
+  test -f "$f" && . "$f"
+done
+# }}}
