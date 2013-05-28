@@ -22,6 +22,10 @@ if [ -s "$HOME/.rvm/bin" ]; then
   export PATH=$PATH:$HOME/.rvm/bin
 fi
 
+if [ -s "/usr/local/heroku/bin" ]; then
+  export PATH="/usr/local/heroku/bin:$PATH"
+fi
+
 export EDITOR=vim
 
-# vim:ft=sh:
+# vim:ft=sh
