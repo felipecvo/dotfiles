@@ -54,4 +54,6 @@ if [ -d "$HOME/.node-completion" ]; then
   # }}}
 fi
 
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+
 # vim:ft=sh:
