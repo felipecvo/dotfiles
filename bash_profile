@@ -39,11 +39,13 @@ fi
 
 # vim:ft=sh:
 
-# {{{
-# Node Completion - Auto-generated, do not touch.
-shopt -s progcomp
-for f in $(command ls ~/.node-completion); do
-  f="$HOME/.node-completion/$f"
-  test -f "$f" && . "$f"
-done
-# }}}
+if [ -d "$HOME/.node-completion" ]; then
+  # {{{
+  # Node Completion - Auto-generated, do not touch.
+  shopt -s progcomp
+  for f in $(command ls ~/.node-completion); do
+    f="$HOME/.node-completion/$f"
+    test -f "$f" && . "$f"
+  done
+  # }}}
+fi
