@@ -1,7 +1,13 @@
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_COMPLETION=/usr/local/git/contrib/completion/git-completion.bash
+if [ ! -s $GIT_COMPLETION ]; then
+  GIT_COMPLETION=/opt/boxen/homebrew/etc/bash_completion.d/git-completion.bash
+fi
 [[ -s $GIT_COMPLETION ]] && source $GIT_COMPLETION
+
+GIT_PROMPT=/opt/boxen/homebrew/etc/bash_completion.d/git-prompt.sh
+[ -s $GIT_PROMPT ] && source $GIT_PROMPT
 
 if [ -s "$HOME/.rvm/bin/rvm-prompt" ]; then
   __rvm_ps1()
@@ -37,8 +43,6 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 [[ -s "$HOME/.nvm/nvm.sh" ]] && . "$HOME/.nvm/nvm.sh"
 
-# vim:ft=sh:
-
 if [ -d "$HOME/.node-completion" ]; then
   # {{{
   # Node Completion - Auto-generated, do not touch.
@@ -49,3 +53,5 @@ if [ -d "$HOME/.node-completion" ]; then
   done
   # }}}
 fi
+
+# vim:ft=sh:
