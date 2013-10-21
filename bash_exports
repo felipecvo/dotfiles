@@ -3,7 +3,7 @@ export GREP_COLOR="4;33"
 export CLICOLOR=1
 export LSCOLORS=gxfxDxdxcxexExhxHxbxBx
 
-export CDPATH=$CDPATH:/work/abd:/work/unahi/projects:/work/projects:/work/unahi
+export CDPATH=/work/abd:/work/unahi/projects:/work/projects:/work/unahi
 
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
