@@ -7,4 +7,6 @@ done
 
 source $HOME/.bash_profile
 
+touch .installed
+
 echo "Installed!"
