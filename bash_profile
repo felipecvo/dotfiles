@@ -10,6 +10,8 @@ GIT_PROMPT=/opt/boxen/homebrew/etc/bash_completion.d/git-prompt.sh
 [ -s $GIT_PROMPT ] && source $GIT_PROMPT
 
 if [ -s "$HOME/.rvm/bin/rvm-prompt" ]; then
+  eval "$(rbenv init -)"
+
   __rvm_ps1()
   {
     local r=`~/.rvm/bin/rvm-prompt`
