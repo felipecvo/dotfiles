@@ -1,9 +1,13 @@
-git clone https://github.com/felipecvo/dotfiles.git ~/.dotfiles
+#!/bin/bash
 
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew tap Homebrew/bundle
-brew install caskroom/cask/brew-cask
 
-cd ~/.dotfiles
+export PATH=/usr/local/bin:$PATH
 
-brew bundle
+git clone https://github.com/felipecvo/dotfiles.git ~/.dotfiles
+
+PUSHD ~/.dotfiles
+  brew tap Homebrew/bundle
+  brew install caskroom/cask/brew-cask
+  brew bundle
+POPD
