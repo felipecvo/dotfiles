@@ -13,7 +13,7 @@ pushd $DIR
 
 popd
 
-HIDDEN_FILES="vimrc vim"
+HIDDEN_FILES="vimrc vim gitconfig zshrc"
 
 for f in $HIDDEN_FILES; do
   ln -snf $DIR/$f $HOME/.$f

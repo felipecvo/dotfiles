@@ -128,3 +128,5 @@ set background=dark
 colorscheme solarized
 
 map <C-n> :NERDTreeToggle<CR>
+map <Leader>t :call RunCurrentSpecFile()<CR>
+

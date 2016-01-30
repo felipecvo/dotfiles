@@ -10,6 +10,7 @@ Plugin 'wincent/Command-T'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'vim-scripts/ack.vim'
 
 " puppet
 Plugin 'godlygeek/tabular'
@@ -20,6 +21,7 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-rails'
 Plugin 'muz/vim-gemfile'
+Plugin 'thoughtbot/vim-rspec'
 
 " git
 Plugin 'tpope/vim-fugitive'
