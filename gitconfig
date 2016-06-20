@@ -1,13 +1,12 @@
 [color]
-	ui = auto
+  ui = auto
 [user]
-	name = Felipe Oliveira
-	email = felipecvo@gmail.com
+  name = Felipe Oliveira
+  email = felipecvo@gmail.com
 [push]
-	default = current
+  default = current
 [github]
-	token = 330ce031e9344ed1f92aceb673fe5919
-	user = felipecvo
+  user = felipecvo
 [alias]
   st = status
   ci = commit
@@ -17,21 +16,12 @@
   lg = log -p
   who = shortlog -s --
   pr = pull --rebase
-	amend = commit --amend -C HEAD
+  amend = commit --amend -C HEAD
 [color "status"]
   changed = yellow
-[core]
-	excludesfile = /opt/boxen/config/git/gitignore
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-
-[credential]
-helper = /opt/boxen/bin/boxen-git-credential
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  required = true
+[include]
+  path = ~/.gitlocal
