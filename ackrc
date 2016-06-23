@@ -1,0 +1,7 @@
+--ignore-dir=log
+--ignore-dir=doc
+--ignore-dir=tmp
+--ignore-dir=public/assets
+--ignore-file=is:.tags
+--ignore-file=is:.keep
+--ignore-file=ext:svg
