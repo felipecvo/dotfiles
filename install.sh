@@ -13,7 +13,7 @@ pushd $DIR
 
 popd
 
-HIDDEN_FILES="vimrc vim gitconfig zshrc"
+HIDDEN_FILES="ackrc vimrc vim gitconfig gitignore_global zshrc"
 
 for f in $HIDDEN_FILES; do
   ln -snf $DIR/$f $HOME/.$f
