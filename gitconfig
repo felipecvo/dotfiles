@@ -25,3 +25,5 @@
   required = true
 [include]
   path = ~/.gitlocal
+[core]
+  excludesfile = ~/.gitignore_global
