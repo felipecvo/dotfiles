@@ -33,6 +33,7 @@ Plugin 'vim-scripts/npm.vim'
 
 " colorscheme
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'ryanoasis/vim-devicons'
 
 call vundle#end()
 filetype plugin indent on
