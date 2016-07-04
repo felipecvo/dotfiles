@@ -2,6 +2,10 @@
 
 OS=$(uname -s)
 
+git clone https://github.com/felipecvo/dotfiles.git ~/.dotfiles
+
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  
 if [ "$OS" == "Darwin" ]; then
   sudo softwareupdate -ia
   
@@ -11,11 +15,11 @@ if [ "$OS" == "Darwin" ]; then
   
   export PATH=/usr/local/bin:$PATH
   
-  git clone https://github.com/felipecvo/dotfiles.git ~/.dotfiles
-  
   pushd ~/.dotfiles
     brew tap Homebrew/bundle
     brew install caskroom/cask/brew-cask
     brew bundle
   popd
 fi
+
+~/.dotfiles/install.sh
