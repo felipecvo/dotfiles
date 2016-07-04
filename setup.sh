@@ -20,6 +20,11 @@ if [ "$OS" == "Darwin" ]; then
     brew install caskroom/cask/brew-cask
     brew bundle
   popd
+elif [ "$OS" == "Linux" ]; then
+  sudo apt install -y ruby
+  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+  cd ~/.rbenv && src/configure && make -C src
+  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 fi
 
 ~/.dotfiles/install.sh
