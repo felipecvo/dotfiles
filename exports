@@ -1,29 +1,13 @@
-export GREP_OPTIONS="--color=auto"
-export GREP_COLOR="4;33"
 export CLICOLOR=1
 export LSCOLORS=gxfxDxdxcxexExhxHxbxBx
-
-export CDPATH=/work/abd:/work/unahi/projects:/work/projects:/work/unahi
 
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE='&:ls:ll:[bf]g:pwd'
 export HISTCONTROL='ignoredups:erasedups'
 
-if [ -s "/usr/local/oracle" ]; then
-  export DYLD_LIBRARY_PATH="/usr/local/oracle/instantclient_10_2"
-  export SQLPATH="/usr/local/oracle/instantclient_10_2"
-  export TNS_ADMIN="/usr/local/oracle/network/admin"
-  export NLS_LANG="AMERICAN_AMERICA.UTF8"
-  export PATH=$PATH:$DYLD_LIBRARY_PATH:/Library/Ruby/Gems/1.8/bin:/usr/local/sbin
-fi
-
 if [ -s "$HOME/.rvm/bin" ]; then
   export PATH=$PATH:$HOME/.rvm/bin
-fi
-
-if [ -s "/usr/local/heroku/bin" ]; then
-  export PATH="/usr/local/heroku/bin:$PATH"
 fi
 
 export EDITOR=vim

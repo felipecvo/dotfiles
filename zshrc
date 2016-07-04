@@ -1,7 +1,8 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/usuario/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
+export DOTFILES=$HOME/.dotfiles
 
-export DEFAULT_USER='felipe.oliveira'
+export DEFAULT_USER='felipecvo'
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -59,6 +60,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
+source $DOTFILES/exports
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
