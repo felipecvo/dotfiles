@@ -27,3 +27,5 @@
   path = ~/.gitlocal
 [core]
   excludesfile = ~/.gitignore_global
+[commit]
+  gpgsign = true
