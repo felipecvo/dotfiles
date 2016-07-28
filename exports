@@ -10,6 +10,12 @@ if [ -s "$HOME/.rvm/bin" ]; then
   export PATH=$PATH:$HOME/.rvm/bin
 fi
 
+if [ -s "$HOME/.exports" ]; then
+  source $HOME/.exports
+fi
+
+export PATH="./bin:$PATH"
+
 export EDITOR=vim
 
 # vim:ft=sh
