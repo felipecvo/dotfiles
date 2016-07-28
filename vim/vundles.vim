@@ -7,6 +7,7 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'wincent/Command-T'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
@@ -25,6 +26,7 @@ Plugin 'thoughtbot/vim-rspec'
 
 " git
 Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 
 " javascript
 Plugin 'moll/vim-node'
@@ -34,6 +36,7 @@ Plugin 'vim-scripts/npm.vim'
 " colorscheme
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'jpo/vim-railscasts-theme'
 
 call vundle#end()
 filetype plugin indent on
