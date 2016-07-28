@@ -23,7 +23,7 @@ syntax on
 
 " Change leader to a comma because the backslash is too far away
 " That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all 
+" The mapleader has to be set before vundle starts loading all
 " the plugins.
 let mapleader=","
 
@@ -89,6 +89,8 @@ set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 
+set updatetime=250
+
 "
 " ================ Scrolling ========================
 
@@ -115,6 +117,9 @@ set smartcase       " ...unless we type a capital
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+let g:webdevicons_enable_nerdtree = 0
 
 set guifont=Inconsolata\ for\ Powerline:h15
 let g:Powerline_symbols = 'fancy'
@@ -125,7 +130,13 @@ set term=xterm-256color
 set termencoding=utf-8
 
 set background=dark
-colorscheme solarized
+
+if (match(system("uname -s"), "Darwin") != -1)
+  colorscheme solarized
+else
+  colorscheme railscasts
+  set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Nerd\ Font\ Complete\ Mono\ 13
+endif
 
 map <C-n> :NERDTreeToggle<CR>
 map <Leader>t :call RunCurrentSpecFile()<CR>
