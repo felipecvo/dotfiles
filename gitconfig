@@ -17,6 +17,7 @@
   who = shortlog -s --
   pr = pull --rebase
   amend = commit --amend -C HEAD
+  pf = push --force-with-lease
 [color "status"]
   changed = yellow
 [filter "lfs"]
@@ -28,4 +29,4 @@
 [core]
   excludesfile = ~/.gitignore_global
 [commit]
-  gpgsign = true
+  gpgsign = false

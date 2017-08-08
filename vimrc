@@ -12,6 +12,7 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set laststatus=2                "Always show status bar
+set cursorline
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -111,7 +112,9 @@ set smartcase       " ...unless we type a capital
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
-"
+
+let g:ackprg = 'ag --vimgrep'
+
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
@@ -139,5 +142,12 @@ else
 endif
 
 map <C-n> :NERDTreeToggle<CR>
-map <Leader>t :call RunCurrentSpecFile()<CR>
+map <C-g> :Gstatus<CR>
+map <Leader>jt <Esc>:%!python -m json.tool<ESC>=%<CR>
 
+" rspec
+let g:rspec_command = "Dispatch rspec {spec}"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>

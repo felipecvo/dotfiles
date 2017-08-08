@@ -52,18 +52,22 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rbenv)
+plugins=(git rbenv tmux)
 
 # User configuration
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
+export PATH="$PATH:/Users/felipecvo/Library/Python/2.7/bin"
 
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/exports
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
+export PYTHONPATH=~/.config/powerline/segments
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -88,3 +92,10 @@ source $DOTFILES/exports
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 RPS1='♦ $(rbenv_prompt_info)'
+
+if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+  source ~/.gnupg/.gpg-agent-info
+  export GPG_AGENT_INFO
+else
+  eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+fi
