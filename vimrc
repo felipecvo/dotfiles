@@ -108,7 +108,9 @@ set smartcase       " ...unless we type a capital
 
 " ================ Custom Settings ========================
 " so ~/.dotfiles/vim/settings.vim
-"
+
+let NERDTreeIgnore=['node_modules$']
+
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
