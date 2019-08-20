@@ -12,7 +12,7 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set laststatus=2                "Always show status bar
-set cursorline
+" set cursorline
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -89,6 +89,7 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*node_modules/**
 
 set updatetime=250
 
@@ -121,6 +122,11 @@ let g:ackprg = 'ag --vimgrep'
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
@@ -137,19 +143,58 @@ set termencoding=utf-8
 set background=dark
 
 if (match(system("uname -s"), "Darwin") != -1)
-  colorscheme solarized
+  " colorscheme solarized
+  colorscheme onedark
+  " colorscheme desert
+  " colorscheme molokai
 else
   colorscheme railscasts
   set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Nerd\ Font\ Complete\ Mono\ 13
 endif
 
-map <C-n> :NERDTreeToggle<CR>
+" map <C-n> :NERDTreeToggle<CR>
 map <C-g> :Gstatus<CR>
-map <Leader>jt <Esc>:%!python -m json.tool<ESC>=%<CR>
+map <leader>jt <Esc>:%!ruby -rjson -e "print JSON.pretty_generate(JSON.parse(ARGF.read))"<ESC>=%<CR>
+
+nnoremap <c-n> :%s///g<left><left>
+nnoremap <CR> :noh<CR><CR>
 
 " rspec
-let g:rspec_command = "Dispatch rspec {spec}"
+let g:rspec_runner = "os_x_iterm2"
+let g:rspec_command = "Dispatch bundle exec rspec {spec}"
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+
+let g:branch_prefix = "fo"
+
+" Section: Gcreatebranch
+
+function! Gcreatebranch(name)
+  let branch_name = g:branch_prefix . "-" . a:name
+
+  call system("git checkout -b " . branch_name)
+
+  " redraw!
+
+  echo("Branch " . branch_name . " created")
+endfunction
+
+command! -nargs=1 Gcreatebranch :call Gcreatebranch(<q-args>)
+
+map <Leader>b :MerginalToggle<CR>
+
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" 0x246 = \u0246
+" 0x229e = \u229e
+let g:airline_symbols.notexists = "\u2612"
+
+let g:ruby_indent_assignment_style = 'variable'
+
+let @* = expand("%")

@@ -1,5 +1,6 @@
 tap 'caskroom/cask'
 tap 'caskroom/versions'
+tap 'caskroom/fonts'
 
 # essential
 brew 'git'
@@ -12,9 +13,13 @@ brew 'ag'
 
 brew 'node'
 
+brew 'hyper'
+
 # tools
 brew 'graphviz'
 brew 'httpie'
+
+brew 'ctags'
 
 #brew 'python'
 #brew 'bash-completion'
@@ -31,6 +36,7 @@ brew 'httpie'
 cask 'postman'
 cask 'grammarly'
 cask 'firefox'
+cask 'authy'
 #cask 'vlc'
 #cask 'slack'
 #cask 'pritunl'
@@ -51,3 +57,7 @@ cask 'firefox'
 #cask 'sketch'
 #cask 'mockplus'
 #cask 'psequel'
+cask 'insomnia'
+cask 'emacs'
+cask 'macvim'
+cask 'font-source-code-pro'

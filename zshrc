@@ -52,7 +52,13 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rbenv tmux)
+plugins=(
+  git
+  rbenv
+  tmux
+  pyenv
+  docker
+)
 
 # User configuration
 
@@ -67,7 +73,6 @@ source $DOTFILES/exports
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
-export PYTHONPATH=~/.config/powerline/segments
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -91,11 +96,4 @@ export PYTHONPATH=~/.config/powerline/segments
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-RPS1='♦ $(rbenv_prompt_info)'
-
-if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
-  source ~/.gnupg/.gpg-agent-info
-  export GPG_AGENT_INFO
-else
-  eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
-fi
+RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'

@@ -1,4 +1,11 @@
 .byebug_history
 .DS_Store
 .env.local
-bin/guard
+.env.test
+.env.qa
+.env.stage
+.env.production
+~/projects/youse-sdk/.ruby-version
+tags
+.env.local
+/runbook
