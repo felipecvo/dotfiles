@@ -50,6 +50,8 @@ Plugin 'akz92/vim-angular2'
 
 " Plugin 'rhysd/vim-grammarous'
 
+Plugin 'hashivim/vim-terraform'
+
 " colorscheme
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'ryanoasis/vim-devicons'

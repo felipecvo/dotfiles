@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/Users/felipecvo/projects/youse/public-api/docs'
+let g:netrw_dirhist_1='/Users/felipecvo/projects/youse/public-api/docs/actions/auto/orders/contact_request'
+let g:netrw_dirhist_0='/Users/felipecvo/projects/youse/public-api/docs/actions/auto/orders'
+let g:netrw_dirhist_9='/Users/felipecvo/projects/youse/public-api/docs/actions/auto'
+let g:netrw_dirhist_8='/Users/felipecvo/projects/youse/public-api/docs/actions'
+let g:netrw_dirhist_7='/Users/felipecvo/projects/youse/public-api/docs'
+let g:netrw_dirhist_6='/Users/felipecvo/projects/youse/public-api/docs/definitions'
+let g:netrw_dirhist_5='/Users/felipecvo/projects/youse/public-api/docs'
+let g:netrw_dirhist_4='/Users/felipecvo/projects/youse/public-api/docs/dist'
+let g:netrw_dirhist_3='/Users/felipecvo/projects/youse/public-api/docs'

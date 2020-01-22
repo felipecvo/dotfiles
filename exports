@@ -16,13 +16,8 @@ fi
 
 export EDITOR=vim
 
-export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-export PYENV_ROOT="$HOME/.pyenv"
+export JAVA_HOME="$(/usr/libexec/java_home)"
 
-export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.5/bin
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$PYENV_ROOT/bin:$(pyenv root)/shims:$PATH"
-export PATH=/Users/felipecvo/projects/anaconda3/bin:$PATH
 export PATH="./bin:$PATH"
 
 # vim:ft=sh

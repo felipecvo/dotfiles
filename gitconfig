@@ -30,3 +30,5 @@
   excludesfile = ~/.gitignore_global
 [commit]
   gpgsign = false
+[includeIf "gitdir:~/projects/youse/"]
+  path = ~/projects/youse/.gitconfig
