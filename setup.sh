@@ -2,20 +2,35 @@
 
 OS=$(uname -s)
 
-git clone https://github.com/felipecvo/dotfiles.git ~/.dotfiles
+DOTFILE_PATH="$HOME/.dotfiles"
 
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  
+if [ ! -d "$DOTFILE_PATH" ]; then
+  git clone https://github.com/felipecvo/dotfiles.git ~/.dotfiles
+else
+  echo "You already have dotfiles cloned."
+fi
+
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+else
+  echo "You already have Oh My Zsh installed."
+fi
+
 if [ "$OS" == "Darwin" ]; then
   sudo softwareupdate -ia
-  
+
   xcode-select --install
-  
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  
+
+  which -s brew
+  if [[ $? != 0 ]]; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  else
+    brew update
+  fi
+
   export PATH=/usr/local/bin:$PATH
-  
-  pushd ~/.dotfiles
+
+  pushd $DOTFILE_PATH
     brew tap Homebrew/bundle
     brew install caskroom/cask/brew-cask
     brew bundle
@@ -27,4 +42,4 @@ elif [ "$OS" == "Linux" ]; then
   git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 fi
 
-~/.dotfiles/install.sh
+$DOTFILE_PATH/install.sh

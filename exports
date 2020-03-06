@@ -6,10 +6,6 @@ export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE='&:ls:ll:[bf]g:pwd'
 export HISTCONTROL='ignoredups:erasedups'
 
-if [ -s "$HOME/.rvm/bin" ]; then
-  export PATH=$PATH:$HOME/.rvm/bin
-fi
-
 if [ -s "$HOME/.exports" ]; then
   source $HOME/.exports
 fi
@@ -18,6 +14,10 @@ export EDITOR=vim
 
 export JAVA_HOME="$(/usr/libexec/java_home)"
 
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/sbin:$PATH"
+# export MANPATH="/usr/local/man:$MANPATH"
+# export PATH="$PATH:/Users/felipecvo/Library/Python/2.7/bin"
 export PATH="./bin:$PATH"
 
 # vim:ft=sh

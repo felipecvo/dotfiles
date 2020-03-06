@@ -2,7 +2,7 @@
 export ZSH=$HOME/.oh-my-zsh
 export DOTFILES=$HOME/.dotfiles
 
-export DEFAULT_USER='felipecvo'
+export DEFAULT_USER='felipe.oliveira'
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -60,10 +60,6 @@ plugins=(
 )
 
 # User configuration
-
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
-export PATH="$PATH:/Users/felipecvo/Library/Python/2.7/bin"
 
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/exports

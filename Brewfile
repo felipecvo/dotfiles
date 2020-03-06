@@ -1,6 +1,6 @@
-tap 'caskroom/cask'
-tap 'caskroom/versions'
-tap 'caskroom/fonts'
+# tap 'homebrew/cask-cask'
+# tap 'homebrew/versions'
+tap 'homebrew/cask-fonts'
 tap 'heroku/brew'
 tap 'd12frosted/emacs-plus'
 
@@ -59,6 +59,7 @@ cask 'arduino'
 #cask 'skype'
 #cask 'vlc'
 #cask 'zeplin'
+cask 'anydo'
 cask 'alacritty'
 cask 'android-studio'
 cask 'authy'
@@ -91,5 +92,6 @@ cask 'font-roboto-slab'
 
 mas 'Keynote', id: 409183694
 mas 'Microsoft OneNote', id: 784801555
+mas 'Microsoft Remote Desktop 10', id: 1295203466
 
 # vi: ft=ruby
