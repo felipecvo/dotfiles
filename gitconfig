@@ -32,3 +32,5 @@
   gpgsign = false
 [includeIf "gitdir:~/projects/youse/"]
   path = ~/projects/youse/.gitconfig
+[pull]
+	ff = only
