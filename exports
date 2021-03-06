@@ -12,12 +12,16 @@ fi
 
 export EDITOR=vim
 
-export JAVA_HOME="$(/usr/libexec/java_home)"
+if [ -f "/usr/libexec/java_home" ]; then
+  export JAVA_HOME="$(/usr/libexec/java_home)"
+fi
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="/usr/local/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 # export PATH="$PATH:/Users/felipecvo/Library/Python/2.7/bin"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="./bin:$PATH"
+
 
 # vim:ft=sh
