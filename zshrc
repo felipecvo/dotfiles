@@ -46,7 +46,7 @@ ZSH_THEME="agnoster"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM="$DOTFILES/zsh-custom"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -92,3 +92,8 @@ export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
+
+eval "$(rbenv init -)"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
