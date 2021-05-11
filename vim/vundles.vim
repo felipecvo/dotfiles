@@ -64,5 +64,7 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-jdaddy'
 Plugin 'tpope/vim-dadbod'
 
+Plugin 'aklt/plantuml-syntax'
+
 call vundle#end()
 filetype plugin indent on
