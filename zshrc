@@ -4,12 +4,6 @@ export DOTFILES=$HOME/.dotfiles
 
 export DEFAULT_USER='felipe.oliveira'
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -91,7 +85,11 @@ export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
+source $DOTFILES/zplug
+
+ZSH_THEME="dracula"
+
+# RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
 
 eval "$(rbenv init -)"
 
