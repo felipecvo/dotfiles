@@ -148,7 +148,8 @@ if (match(system("uname -s"), "Darwin") != -1)
   " colorscheme desert
   " colorscheme molokai
 else
-  colorscheme railscasts
+  " colorscheme railscasts
+  colorscheme onedark
   set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Nerd\ Font\ Complete\ Mono\ 13
 endif
 
@@ -196,5 +197,3 @@ endif
 let g:airline_symbols.notexists = "\u2612"
 
 let g:ruby_indent_assignment_style = 'variable'
-
-let @* = expand("%")
