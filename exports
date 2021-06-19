@@ -6,6 +6,10 @@ export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE='&:ls:ll:[bf]g:pwd'
 export HISTCONTROL='ignoredups:erasedups'
 
+if [ -d "/home/linuxbrew/.linuxbrew/bin" ]; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+fi
+
 if [ -s "$HOME/.exports" ]; then
   source $HOME/.exports
 fi
@@ -22,6 +26,5 @@ export PATH="/usr/local/sbin:$PATH"
 # export PATH="$PATH:/Users/felipecvo/Library/Python/2.7/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="./bin:$PATH"
-
 
 # vim:ft=sh
