@@ -4,6 +4,8 @@ export DOTFILES=$HOME/.dotfiles
 
 export DEFAULT_USER='felipe.oliveira'
 
+ZSH_THEME="awesomepanda"
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -85,11 +87,7 @@ export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source $DOTFILES/zplug
-
-ZSH_THEME="dracula"
-
-# RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
+RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
 
 eval "$(rbenv init -)"
 
