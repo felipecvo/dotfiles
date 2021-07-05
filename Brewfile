@@ -22,7 +22,6 @@ brew 'mas' if mac?
 # brew 'emacs-plus'
 
 # brew 'node'
-# brew 'awscli'
 # brew 'packer'
 # brew 'terraform'
 
@@ -37,6 +36,7 @@ brew 'glances'
 brew 'curlie'
 
 # tools
+brew 'awscli'
 brew 'heroku'
 
 #brew 'graphviz'
