@@ -38,7 +38,6 @@ brew 'curlie'
 
 # tools
 brew 'heroku'
-brew 'zplug'
 
 #brew 'graphviz'
 #brew 'httpie'
