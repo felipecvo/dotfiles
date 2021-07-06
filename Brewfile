@@ -25,6 +25,8 @@ brew 'mas' if mac?
 # brew 'packer'
 # brew 'terraform'
 
+brew 'python3'
+
 # modern unix
 brew 'bat'
 brew 'lsd'
