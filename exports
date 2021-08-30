@@ -27,4 +27,6 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="./bin:$PATH"
 
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+
 # vim:ft=sh

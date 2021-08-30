@@ -25,7 +25,7 @@ brew 'mas' if mac?
 # brew 'packer'
 # brew 'terraform'
 
-brew 'python3'
+####brew 'python3'
 
 # modern unix
 brew 'bat'
@@ -75,9 +75,9 @@ brew 'heroku'
 #cask 'vlc'
 #cask 'zeplin'
 # cask 'anydo'
-# cask 'alacritty'
+cask 'alacritty'
 # cask 'android-studio'
-# cask 'authy'
+cask 'authy'
 # cask 'boostnote'
 # cask 'docker'
 # cask 'dropbox'
@@ -85,6 +85,7 @@ brew 'heroku'
 # cask 'evernote'
 # cask 'google-chrome'
 # cask 'google-cloud-sdk'
+# cask 'google-drive'
 # cask 'iterm2'
 # cask 'macvim'
 # cask 'notion'
@@ -110,6 +111,12 @@ if mac?
   mas 'Keynote', id: 409183694
   mas 'Microsoft OneNote', id: 784801555
   mas 'Microsoft Remote Desktop 10', id: 1295203466
+  mas 'Amphetamine', id: 937984704
+  mas 'Slack', id: 803453959
+  mas 'Any.do To-do list & Calendar', id: 944960179
+  mas 'Evernote', id: 406056744
+  mas 'MindNode – Mind Map & Outline', id: 1289197285
+  mas 'LastPass Password Manager', id: 926036361
 end
 
 # vi: ft=ruby
