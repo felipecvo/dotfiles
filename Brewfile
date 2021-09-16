@@ -19,6 +19,7 @@ brew 'tmux'
 # brew 'rbspy'
 # brew 'postgresql'
 brew 'mas' if mac?
+brew 'lima' if mac?
 # brew 'emacs-plus'
 
 # brew 'node'
