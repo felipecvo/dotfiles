@@ -42,11 +42,14 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'idanarye/vim-merginal'
 
 " javascript
+Plugin 'pangloss/vim-javascript'
 " Plugin 'moll/vim-node'
 " Plugin 'jelera/vim-javascript-syntax'
 " Plugin 'vim-scripts/npm.vim'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'akz92/vim-angular2'
+Plugin 'quramy/vim-js-pretty-template'
+Plugin 'mhartington/vim-angular2-snippets'
 
 " Plugin 'rhysd/vim-grammarous'
 

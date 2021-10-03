@@ -53,6 +53,7 @@ plugins=(
   git
   rbenv
   docker
+  asdf
 )
 
 # User configuration
@@ -90,6 +91,7 @@ export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
 RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
 
 eval "$(rbenv init -)"
+eval "$(starship init zsh)"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform

@@ -14,6 +14,7 @@ brew 'git'
 brew 'vim'
 brew 'zsh'
 brew 'tmux'
+brew 'asdf'
 # brew 'rbenv'
 # brew 'ruby-build'
 # brew 'rbspy'
@@ -21,10 +22,11 @@ brew 'tmux'
 brew 'mas' if mac?
 brew 'lima' if mac?
 # brew 'emacs-plus'
+brew 'starship'
 
 # brew 'node'
 # brew 'packer'
-# brew 'terraform'
+brew 'terraform'
 
 ####brew 'python3'
 
@@ -37,10 +39,16 @@ brew 'ag'
 brew 'tldr'
 brew 'glances'
 brew 'curlie'
+brew 'jq'
 
 # tools
 brew 'awscli'
 brew 'heroku'
+brew 'kubectl'
+brew 'minikube'
+brew 'helm'
+
+# brew 'tmuxinator'
 
 #brew 'graphviz'
 #brew 'httpie'
@@ -91,7 +99,7 @@ cask 'authy'
 # cask 'macvim'
 # cask 'notion'
 # cask 'oracle-jdk'
-# cask 'postman'
+cask 'postman'
 # cask 'pritunl'
 # cask 'psequel'
 # cask 'slack'
