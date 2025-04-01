@@ -18,6 +18,7 @@
   pr = pull --rebase
   amend = commit --amend -C HEAD
   pf = push --force-with-lease
+  delete-previous-branch = branch -D @{-1}
 [color "status"]
   changed = yellow
 [filter "lfs"]
@@ -48,3 +49,5 @@
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
     file-decoration-style = none
+[init]
+	defaultBranch = main
