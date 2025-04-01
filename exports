@@ -25,7 +25,9 @@ export PATH="/usr/local/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 # export PATH="$PATH:/Users/felipecvo/Library/Python/2.7/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="./bin:$PATH"
+# export PATH="./bin:$PATH"
+export PATH="$PATH:/var/lib/snapd/snap/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 

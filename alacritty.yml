@@ -7,7 +7,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: 'Inconsolata for Powerline'
+    # family: 'FiraCode Nerd Font Mono'
+    # family: 'Inconsolata for Powerline'
     family: 'Hack Nerd Font'
 
     # The `style` can be specified to pick a specific face.

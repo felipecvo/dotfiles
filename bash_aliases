@@ -20,4 +20,7 @@ alias rehash='source ~/.bash_profile'
 alias vihost='sudo vim /etc/hosts'
 alias visshconfig='vim ~/.ssh/config'
 
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+
 # vim:ft=sh:

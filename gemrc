@@ -8,3 +8,4 @@ install: --no-rdoc --no-ri
 :benchmark: false
 update: --no-rdoc --no-ri
 :bulk_threshold: 1000
+:ipv4_fallback_enabled: true
