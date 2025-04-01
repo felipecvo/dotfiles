@@ -5,17 +5,21 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-commentary'
+Plugin 'valloric/youcompleteme'
+Plugin 'quramy/tsuquyomi'
 
 Plugin 'tpope/vim-surround'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-repeat'
+
+Plugin 'sirver/ultisnips'
 
 " Plugin 'docker/docker', {'rtp': '/contrib/syntax/vim/'}
 
@@ -54,6 +58,7 @@ Plugin 'mhartington/vim-angular2-snippets'
 " Plugin 'rhysd/vim-grammarous'
 
 Plugin 'hashivim/vim-terraform'
+Plugin 'udalov/kotlin-vim'
 
 " colorscheme
 Plugin 'altercation/vim-colors-solarized'

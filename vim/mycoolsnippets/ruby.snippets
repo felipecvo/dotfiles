@@ -1,0 +1,14 @@
+snippet #f "# frozen_string_literal: true" b
+# frozen_string_literal: true
+
+$0
+endsnippet
+
+snippet rlsp "rails spec"
+require 'rails_helper'
+
+RSpec.describe $1, type: $2 do
+	$0
+end
+endsnippet
+

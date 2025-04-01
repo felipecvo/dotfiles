@@ -12,7 +12,8 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set laststatus=2                "Always show status bar
-" set cursorline
+set cursorline
+set relativenumber
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -197,3 +198,8 @@ endif
 let g:airline_symbols.notexists = "\u2612"
 
 let g:ruby_indent_assignment_style = 'variable'
+
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-m>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mycoolsnippets"]
