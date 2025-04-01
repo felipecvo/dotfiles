@@ -25,7 +25,7 @@ brew 'lima' if mac?
 brew 'starship'
 
 # brew 'node'
-# brew 'packer'
+brew 'packer'
 brew 'terraform'
 
 ####brew 'python3'
@@ -47,6 +47,8 @@ brew 'heroku'
 brew 'kubectl'
 brew 'minikube'
 brew 'helm'
+brew 'awsume'
+brew 'gh'
 
 # brew 'tmuxinator'
 
