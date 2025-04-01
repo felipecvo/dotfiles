@@ -44,16 +44,25 @@ ZSH_THEME="awesomepanda"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM="$DOTFILES/zsh-custom"
 
+export PYTHON_AUTO_VRUN=true
+export PYTHON_VENV_NAME=".venv"
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  ng
-  git
-  rbenv
-  docker
   asdf
+  docker
+  fzf
+  git
+  gpg-agent
+  ng
+  npm
+  rbenv
+  python
+  ssh-agent
+  zsh-syntax-highlighting
 )
 
 # User configuration
@@ -90,8 +99,23 @@ export POWERLINE_CONFIG_COMMAND=~/Library/Python/2.7/bin/powerline-config
 
 RPS1='%{$fg[red]%}%{$bg[red]$fg[white]%}  $(rbenv_prompt_info) %{$reset_color%}'
 
-eval "$(rbenv init -)"
-eval "$(starship init zsh)"
+if [[ (( $+commands[rbenv] )) ]]; then
+  eval "$(rbenv init -)"
+fi
+
+if [[ (( $+commands[starship] )) ]]; then
+  eval "$(starship init zsh)"
+fi
+
+# source <(kubectl completion zsh)
+# source <(minikube completion zsh)
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
