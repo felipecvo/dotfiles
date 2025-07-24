@@ -1,31 +1,37 @@
-#+TITLE: GNU Emacs Config
-#+AUTHOR: Felipe Oliveira (FO)
-#+DESCRIPTION: My personal Emacs config.
+#+title: My Emacs Config
+#+AUTHOR: Felipe Oliveira (fcvo)
+#+DESCRIPTION: My personal Emacs config
 #+STARTUP: showeverything
 #+OPTIONS: toc:2
 
-* TABLE OF CONTENTS :toc:
-- [[#important-programs-to-load-first][IMPORTANT PROGRAMS TO LOAD FIRST]]
-  - [[#elpaca-package-manager][Elpaca Package Manager]]
-  - [[#load-evil-mode][Load Evil Mode]]
-  - [[#general-keybindings][General Keybindings]]
-- [[#all-the-icons][ALL THE ICONS]]
-- [[#nerd-font-icons][NERD FONT ICONS]]
+* Table of Contents :toc:
+- [[#elpaca-package-manager][Elpaca Package Manager]]
+- [[#evil-mode][Evil Mode]]
+- [[#ui-configuration][UI Configuration]]
+  - [[#font-configuration][Font Configuration]]
+  - [[#color-theme][Color Theme]]
+  - [[#all-the-icons][All The Icons]]
+  - [[#modeline][Modeline]]
+  - [[#show-invisibles][Show Invisibles]]
 - [[#backup][BACKUP]]
-- [[#dashboard][DASHBOARD]]
-- [[#fonts][FONTS]]
-  - [[#setting-the-font-face][Setting The Font Face]]
-- [[#graphical-user-interface-tweaks][GRAPHICAL USER INTERFACE TWEAKS]]
-  - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
-  - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
+- [[#org-mode][Org Mode]]
+  - [[#basic-config][Basic Config]]
+  - [[#table-of-contents][Table Of Contents]]
+  - [[#org-modern][Org Modern]]
+  - [[#center-org-buffers][Center Org Buffers]]
+  - [[#habits][Habits]]
+  - [[#refiling-and-archiving][Refiling and Archiving]]
+  - [[#capture][Capture]]
+  - [[#org-roam][Org Roam]]
 - [[#completion-system][Completion System]]
-- [[#modeline][MODELINE]]
-- [[#org-mode][ORG MODE]]
-  - [[#enable-table-of-contents][Enable Table Of Contents]]
-- [[#theme][THEME]]
+  - [[#vertico][Vertico]]
+  - [[#marginalia][Marginalia]]
+  - [[#orderless][Orderless]]
+  - [[#consult][Consult]]
+  - [[#embark][Embark]]
+- [[#posframe][Posframe]]
 
-* IMPORTANT PROGRAMS TO LOAD FIRST
-** Elpaca Package Manager
+* Elpaca Package Manager
 
 #+begin_src emacs-lisp
   (defvar elpaca-installer-version 0.11)
@@ -74,7 +80,9 @@
 
 #+end_src
 
-** Load Evil Mode
+* Evil Mode
+
+Because vim is awesome!
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -83,8 +91,12 @@
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
     :config
-    (evil-mode 1))
+    (evil-mode 1)
+
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
 
   (use-package evil-collection
     :after evil
@@ -96,42 +108,89 @@
 
 #+end_src
 
-** General Keybindings
+
+* UI Configuration
+
+This section configures basic UI settings that remove unneeded elements to make Emacs look a lot more minimal and modern.
 
 #+begin_src emacs-lisp
-  (use-package general
-    :ensure t
-    :config
-    (general-evil-setup)
 
-    ;; set up 'SPC' as the global leader key
-    (general-create-definer fo/leader-keys
-      :states '(normal insert visual emacs)
-      :keymaps 'override
-      :prefix "SPC" ;; set leader
-      :global-prefix "M-SPC") ;; access leader in insert mode
+  (setq inhibit-startup-message t)
 
-    (fo/leader-keys
-      "SPC" '(counsel-M-x :wk "Counsel M-x")
-      "." '(find-file :wk "Find file")
-      "f c" '((lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))) :wk "Edit emacs config")
-      "f a" '((lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))) :wk "Edit agenda")
-      "f d" '(org-download-screenshot :wk "Take screenshot and insert resulting file")
-      "f r" '(counsel-recentf :wk "Find recent files")
-      "TAB TAB" '(comment-line :wk "Comment lines"))
+  (scroll-bar-mode -1)        ; Disable visible scrollbar
+  (tool-bar-mode -1)          ; Disable the toolbar
+  (tooltip-mode -1)           ; Disable tooltips
+  (set-fringe-mode 10)        ; Give some breathing room
 
-    (fo/leader-keys
-      "h" '(:ignore t :wk "Help")
-      " h r r" '((lambda () (interactive)
-  		 (load-file (expand-file-name "init.el" user-emacs-directory))
-  		 (ignore (elpaca-process-queues)))
-  	       :wk "Reload emacs config"))
-    )
+  (menu-bar-mode -1)            ; Disable the menu bar
+
+  ;; Set up the visible bell
+  (setq visible-bell t)
+
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+
+  ;; Disable line numbers for some modes
+  (dolist (mode '(org-mode-hook
+                  term-mode-hook
+                  shell-mode-hook
+                  eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 #+end_src
 
-* ALL THE ICONS
-This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
+** Font Configuration
+
+#+begin_src emacs-lisp
+  (defvar fcvo/default-font-size 140)
+  (defvar fcvo/default-variable-font-size 140)
+
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height fcvo/default-font-size :weight 'medium)
+
+  ;; Set the fixed pitch face
+  (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :height fcvo/default-font-size :weight 'medium)
+
+  ;; Set the variable pitch face
+  (set-face-attribute 'variable-pitch nil :font "Ubuntu" :height fcvo/default-font-size :weight 'medium)
+
+  (set-face-attribute 'font-lock-comment-face nil
+      :slant 'italic)
+
+  (set-face-attribute 'font-lock-keyword-face nil
+      :slant 'italic)
+#+end_src
+
+** Color Theme
+
+I gave up for themes, let's go with [[https://github.com/hlissner/emacs-doom-themes][doom-themes]].
+
+#+begin_src emacs-lisp
+
+  (use-package doom-themes
+    :ensure t
+    :custom
+    ;; Global settings (defaults)
+    (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+    (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    ;; for treemacs users
+    (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+    :config
+    (load-theme 'doom-tokyo-night t)
+
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme (nerd-icons must be installed!)
+    ;; (doom-themes-neotree-config)
+    ;; or for treemacs users
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+
+#+end_src
+
+** All The Icons
+
+This is an icon set that can be used with modeline, dasboard, dired, ibuffer and other Emacs programs.
 
 #+begin_src emacs-lisp
   (use-package all-the-icons
@@ -141,18 +200,35 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
   (use-package all-the-icons-dired
     :ensure t
     :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
-
 #+end_src
 
-* NERD FONT ICONS
+** Modeline
+
+The modeline is the bottom status bar that appears in Emacs windows. While you can create your own custom modeline, why go to the trouble when Doom Emacs already has a nice modeline package available. For more information o what is available to configure in the DOom modeline, check out: [[https://github.com/seagle0128/doom-modeline][Doom Modeline]]
 
 #+begin_src emacs-lisp
 
-  (use-package nerd-icons
+  (use-package doom-modeline
     :ensure t
-    :custom
-    (nerd-icons-font-family "Hack Nerd Font Mono")
-  )
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 35
+          doom-modeline-bar-width 5
+          doom-modeline-persp-name t
+          doom-modeline-persp-icon t))
+
+#+end_src
+
+** Show Invisibles
+
+#+begin_src emacs-lisp
+
+  (setq whitespace-style '(face trailing tab-mark))
+  (setq whitespace-display-mappings
+        '((space-mark ?\  [?\u00B7] [?.])       ;; space -> ·
+          (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]))) ;; tab -> » or \t
+  (global-whitespace-mode 1)
 
 #+end_src
 
@@ -166,192 +242,157 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 
 #+end_src
 
-* DASHBOARD
-Emacs Dashboard is an extensible startup screen shoing you recent files, bookmarks, agenda items and an Emacs banner.
+* Org Mode
+
+** Basic Config
+
+This section contains the basic configuration for =org-mode= plus the configuration for Org agendas and capture templates.
 
 #+begin_src emacs-lisp
-  (use-package dashboard
+    (global-set-key (kbd "C-c l") #'org-store-link)
+    (global-set-key (kbd "C-c a") #'org-agenda)
+    (global-set-key (kbd "C-c c") #'org-capture)
+
+    (defun fcvo/org-mode-setup ()
+      ;;(org-indent-mode)
+      (visual-line-mode 1))
+
+    (use-package org
+      :hook (org-mode . fcvo/org-mode-setup)
+      :config
+      (setq org-ellipsis " ▾")
+      (setq org-return-follows-link 1))
+#+end_src
+
+** Table Of Contents
+
+#+begin_src emacs-lisp
+  (use-package toc-org
     :ensure t
-    :init
-    (setq initial-buffer-choice 'dashboard-open)
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
-    ;; (setq dashboard-startup-banner "/home/felipe/.config/emacs/images/emacs-dash.png")
-    (setq dashboard-center-content t)
-    (setq dashboard-icon-type 'all-the-icons)
-    (setq dashboard-display-icons-p t)
-    (setq dashboard-items '((recents . 5)
-                            (agenda . 5)
-                            (bookmarks . 3)
-                            (projects . 3)
-                            (registers . 3)))
+    :init (add-hook 'org-mode-hook 'toc-org-mode))
+#+end_src
+
+** Org Modern
+
+#+begin_src emacs-lisp
+  (use-package org-modern
+    :ensure t
     :config
-    (dashboard-modify-heading-icons '((recents   . "file-text")
-  				    (bookmarks . "book")))
-    (dashboard-setup-startup-hook))
-
+    (add-hook 'org-mode-hook #'org-modern-mode)
+    (add-hook 'org-agenda-finalize-hook #'org-modern-agenda))
 #+end_src
 
-* FONTS
-Defining the various fonts that Emacs will use.
-
-** Setting The Font Face
+** Center Org Buffers
 
 #+begin_src emacs-lisp
-  (set-face-attribute 'default nil
-    :font "JetBrains Mono"
-    :height 140
-    :weight 'medium)
-  (set-face-attribute 'variable-pitch nil
-    :font "Ubuntu"
-    :height 140
-    :weight 'medium)
-  (set-face-attribute 'fixed-pitch nil
-    :font "JetBrains Mono"
-    :height 140
-    :weight 'medium)
-  (set-face-attribute 'font-lock-comment-face nil
-    :slant 'italic)
-  (set-face-attribute 'font-lock-keyword-face nil
-    :slant 'italic)
+  (defun fcvo/org-mode-visual-fill ()
+    (setq visual-fill-column-width 100
+  	visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
 
+  (use-package visual-fill-column
+    :ensure t
+    :hook (org-mode . fcvo/org-mode-visual-fill))
 #+end_src
 
-* GRAPHICAL USER INTERFACE TWEAKS
-Let's make GNU Emacs look a little better.
+** Habits
 
-** Disable Menubar, Toolbars and Scrollbars
+Tracking my habits
 
 #+begin_src emacs-lisp
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-graph-column 60)
 #+end_src
 
-** Display Line Numbers and Truncated Lines
+** Refiling and Archiving
+
+*** TODO setup
+
+** Capture
+
+*** TODO setup
+
+** Org Roam
+
+My second brain
 
 #+begin_src emacs-lisp
-  (global-display-line-numbers-mode 1)
-  (global-visual-line-mode t)
-
+  (use-package org-roam
+    :ensure t
+    :custom
+    (setq org-roam-directory (file-truename "~/org-roam"))
+    (org-roam)
+    (org-roam-db-autosync-mode)
+  )
 #+end_src
 
 * Completion System
 
 A powerful modular minibuffer completion system using Vertico, Orderless, Marginalia, Consult, and Embark.
 
-#+begin_src emacs-lisp
+** Vertico
 
+#+begin_src emacs-lisp
+  ;; Enable Vertico.
   (use-package vertico
     :ensure t
+    ;; :custom
+    ;; (vertico-scroll-margin 0) ;; Different scroll margin
+    ;; (vertico-count 20) ;; Show more candidates
+    ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+    ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
     :init
     (vertico-mode))
 
-  (use-package marginalia
-    :ensure t
-    :after vertico
-    :bind (:map minibuffer-local-map
-  	    ("M-A" . marginalia-cycle))
-    :init
-    (marginalia-mode))
-
-  (use-package orderless
-    :ensure t
-    :custom
-    (completion-styles '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
-
-  (use-package consult
-    :ensure t
-    :bind (("C-s" . consult-line)
-           ("C-x b" . consult-buffer)
-           ("M-y" . consult-yank-pop)
-           :map minibuffer-local-map
-           ("C-r" . consult-history)))
-
-  (use-package embark
-    :ensure t
-
-    :bind
-    (("C-." . embark-act)         ;; pick some comfortable binding
-      ("C-;" . embark-dwim)        ;; good alternative: M-.
-      ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-    :init
-
-    ;; Optionally replace the key help with a completing-read interface
-    (setq prefix-help-command #'embark-prefix-help-command)
-
-    ;; Show the Embark target at point via Eldoc. You may adjust the
-    ;; Eldoc strategy, if you want to see the documentation from
-    ;; multiple providers. Beware that using this can be a little
-    ;; jarring since the message shown in the minibuffer can be more
-    ;; than one line, causing the modeline to move up and down:
-
-    ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-    ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-    :config
-
-    ;; Hide the mode line of the Embark live/completions buffers
-    (add-to-list 'display-buffer-alist
-  		'("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-  		    nil
-  		    (window-parameters (mode-line-format . none)))))
-
-  ;; Consult users will also want the embark-consult package.
-  (use-package embark-consult
-    :ensure t ; only need to install it, embark loads it after consult if found
-    :hook
-    (embark-collect-mode . consult-preview-at-point-mode))
-
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
   (use-package savehist
-    :ensure nil
     :init
     (savehist-mode))
 
+  ;; Emacs minibuffer configurations.
+  (use-package emacs
+    :custom
+    ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
+    ;; to switch display modes.
+    (context-menu-mode t)
+    ;; Support opening new minibuffers from inside existing minibuffers.
+    (enable-recursive-minibuffers t)
+    ;; Hide commands in M-x which do not work in the current mode.  Vertico
+    ;; commands are hidden in normal buffers. This setting is useful beyond
+    ;; Vertico.
+    (read-extended-command-predicate #'command-completion-default-include-p)
+    ;; Do not allow the cursor in the minibuffer prompt
+    (minibuffer-prompt-properties
+     '(read-only t cursor-intangible t face minibuffer-prompt)))
 #+end_src
 
-* MODELINE
+** Marginalia
 
-The modeline is the bottom status bar that appears in Emacs windows. While you can create your own custom modeline, why go to the trouble when Doom Emacs already has a nice modeline package available. For more information o what is available to configure in the DOom modeline, check out: [[https://github.com/seagle0128/doom-modeline][Doom Modeline]]
+** Orderless
+
+A completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 
 #+begin_src emacs-lisp
-
-  (use-package doom-modeline
+  (use-package orderless
     :ensure t
-    :init
-    (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-height 35
-          doom-modeline-bar-width 5
-	  doom-modeline-persp-name t
-	  doom-modeline-persp-icon t))
+    :custom
+    ;; Configure a custom style dispatcher (see the Consult wiki)
+    ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+    ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+    (completion-styles '(orderless basic))
+    (completion-category-defaults nil)
+    (completion-category-overrides '((file (styles partial-completion)))))
+ #+end_src
 
-#+end_src
+** Consult
 
-* ORG MODE
+** Embark
 
-** Enable Table Of Contents
+* Posframe
 
-#+begin_src emacs-lisp
+    vertico-posframe - for vertico
 
-  (use-package toc-org
-    :ensure t
-    :commands toc-org-enable
-    :init (add-hook 'org-mode-hook 'toc-org-enable))
-  
-#+end_src
+    which-key-posframe - for which-key
 
-* THEME
-
-#+begin_src emacs-lisp
-  (use-package solarized-theme
-    :ensure (:wait t)
-    :demand t
-    :config
-    (load-theme 'solarized-dark t))
-
-#+end_src
+    transient-posframe - for all transient commands, e.g., in magit or in casual-suite

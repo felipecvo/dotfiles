@@ -1,0 +1,357 @@
+#+TITLE: GNU Emacs Config
+#+AUTHOR: Felipe Oliveira (FO)
+#+DESCRIPTION: My personal Emacs config.
+#+STARTUP: showeverything
+#+OPTIONS: toc:2
+
+* TABLE OF CONTENTS :toc:
+- [[#important-programs-to-load-first][IMPORTANT PROGRAMS TO LOAD FIRST]]
+  - [[#elpaca-package-manager][Elpaca Package Manager]]
+  - [[#load-evil-mode][Load Evil Mode]]
+  - [[#general-keybindings][General Keybindings]]
+- [[#all-the-icons][ALL THE ICONS]]
+- [[#nerd-font-icons][NERD FONT ICONS]]
+- [[#backup][BACKUP]]
+- [[#dashboard][DASHBOARD]]
+- [[#fonts][FONTS]]
+  - [[#setting-the-font-face][Setting The Font Face]]
+- [[#graphical-user-interface-tweaks][GRAPHICAL USER INTERFACE TWEAKS]]
+  - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
+  - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
+- [[#completion-system][Completion System]]
+- [[#modeline][MODELINE]]
+- [[#org-mode][ORG MODE]]
+  - [[#enable-table-of-contents][Enable Table Of Contents]]
+- [[#theme][THEME]]
+
+* IMPORTANT PROGRAMS TO LOAD FIRST
+** Elpaca Package Manager
+
+#+begin_src emacs-lisp
+  (defvar elpaca-installer-version 0.11)
+  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                                :ref nil :depth 1 :inherit ignore
+                                :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                                :build (:not elpaca--activate-package)))
+  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+         (build (expand-file-name "elpaca/" elpaca-builds-directory))
+         (order (cdr elpaca-order))
+         (default-directory repo))
+    (add-to-list 'load-path (if (file-exists-p build) build repo))
+    (unless (file-exists-p repo)
+      (make-directory repo t)
+      (when (<= emacs-major-version 28) (require 'subr-x))
+      (condition-case-unless-debug err
+          (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                    ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                    ,@(when-let* ((depth (plist-get order :depth)))
+                                                        (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                    ,(plist-get order :repo) ,repo))))
+                    ((zerop (call-process "git" nil buffer t "checkout"
+                                          (or (plist-get order :ref) "--"))))
+                    (emacs (concat invocation-directory invocation-name))
+                    ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                          "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                    ((require 'elpaca))
+                    ((elpaca-generate-autoloads "elpaca" repo)))
+              (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+            (error "%s" (with-current-buffer buffer (buffer-string))))
+        ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+    (unless (require 'elpaca-autoloads nil t)
+      (require 'elpaca)
+      (elpaca-generate-autoloads "elpaca" repo)
+      (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
+  (add-hook 'after-init-hook #'elpaca-process-queues)
+  (elpaca `(,@elpaca-order))
+
+  ;; Install use-package support
+  (elpaca elpaca-use-package
+    ;; Enable use-package :ensure support for Elpaca.
+    (elpaca-use-package-mode))
+
+#+end_src
+
+** Load Evil Mode
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :demand t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+
+  (use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
+
+#+end_src
+
+** General Keybindings
+
+#+begin_src emacs-lisp
+  (use-package general
+    :ensure t
+    :config
+    (general-evil-setup)
+
+    ;; set up 'SPC' as the global leader key
+    (general-create-definer fo/leader-keys
+      :states '(normal insert visual emacs)
+      :keymaps 'override
+      :prefix "SPC" ;; set leader
+      :global-prefix "M-SPC") ;; access leader in insert mode
+
+    (fo/leader-keys
+      "SPC" '(counsel-M-x :wk "Counsel M-x")
+      "." '(find-file :wk "Find file")
+      "f c" '((lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))) :wk "Edit emacs config")
+      "f a" '((lambda () (interactive) (find-file (expand-file-name "config.org" user-emacs-directory))) :wk "Edit agenda")
+      "f d" '(org-download-screenshot :wk "Take screenshot and insert resulting file")
+      "f r" '(counsel-recentf :wk "Find recent files")
+      "TAB TAB" '(comment-line :wk "Comment lines"))
+
+    (fo/leader-keys
+      "h" '(:ignore t :wk "Help")
+      " h r r" '((lambda () (interactive)
+  		 (load-file (expand-file-name "init.el" user-emacs-directory))
+  		 (ignore (elpaca-process-queues)))
+  	       :wk "Reload emacs config"))
+    )
+
+#+end_src
+
+* ALL THE ICONS
+This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :ensure t
+    :if (display-graphic-p))
+
+  (use-package all-the-icons-dired
+    :ensure t
+    :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+
+#+end_src
+
+* NERD FONT ICONS
+
+#+begin_src emacs-lisp
+
+  (use-package nerd-icons
+    :ensure t
+    :custom
+    (nerd-icons-font-family "Hack Nerd Font Mono")
+  )
+
+#+end_src
+
+* BACKUP
+
+#+begin_src emacs-lisp
+
+  (setq make-backup-files nil  ; no backup~ files
+    auto-save-default nil      ; no #autosave# files
+    create-lockfiles nil)      ; no .#lock files
+
+#+end_src
+
+* DASHBOARD
+Emacs Dashboard is an extensible startup screen shoing you recent files, bookmarks, agenda items and an Emacs banner.
+
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :init
+    (setq initial-buffer-choice 'dashboard-open)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
+    ;; (setq dashboard-startup-banner "/home/felipe/.config/emacs/images/emacs-dash.png")
+    (setq dashboard-center-content t)
+    (setq dashboard-icon-type 'all-the-icons)
+    (setq dashboard-display-icons-p t)
+    (setq dashboard-items '((recents . 5)
+                            (agenda . 5)
+                            (bookmarks . 3)
+                            (projects . 3)
+                            (registers . 3)))
+    :config
+    (dashboard-modify-heading-icons '((recents   . "file-text")
+  				    (bookmarks . "book")))
+    (dashboard-setup-startup-hook))
+
+#+end_src
+
+* FONTS
+Defining the various fonts that Emacs will use.
+
+** Setting The Font Face
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil
+    :font "JetBrains Mono"
+    :height 140
+    :weight 'medium)
+  (set-face-attribute 'variable-pitch nil
+    :font "Ubuntu"
+    :height 140
+    :weight 'medium)
+  (set-face-attribute 'fixed-pitch nil
+    :font "JetBrains Mono"
+    :height 140
+    :weight 'medium)
+  (set-face-attribute 'font-lock-comment-face nil
+    :slant 'italic)
+  (set-face-attribute 'font-lock-keyword-face nil
+    :slant 'italic)
+
+#+end_src
+
+* GRAPHICAL USER INTERFACE TWEAKS
+Let's make GNU Emacs look a little better.
+
+** Disable Menubar, Toolbars and Scrollbars
+
+#+begin_src emacs-lisp
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+#+end_src
+
+** Display Line Numbers and Truncated Lines
+
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode 1)
+  (global-visual-line-mode t)
+
+#+end_src
+
+* Completion System
+
+A powerful modular minibuffer completion system using Vertico, Orderless, Marginalia, Consult, and Embark.
+
+#+begin_src emacs-lisp
+
+  (use-package vertico
+    :ensure t
+    :init
+    (vertico-mode))
+
+  (use-package marginalia
+    :ensure t
+    :after vertico
+    :bind (:map minibuffer-local-map
+  	    ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
+
+  (use-package orderless
+    :ensure t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
+
+  (use-package consult
+    :ensure t
+    :bind (("C-s" . consult-line)
+           ("C-x b" . consult-buffer)
+           ("M-y" . consult-yank-pop)
+           :map minibuffer-local-map
+           ("C-r" . consult-history)))
+
+  (use-package embark
+    :ensure t
+
+    :bind
+    (("C-." . embark-act)         ;; pick some comfortable binding
+      ("C-;" . embark-dwim)        ;; good alternative: M-.
+      ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+    :init
+
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
+
+    ;; Show the Embark target at point via Eldoc. You may adjust the
+    ;; Eldoc strategy, if you want to see the documentation from
+    ;; multiple providers. Beware that using this can be a little
+    ;; jarring since the message shown in the minibuffer can be more
+    ;; than one line, causing the modeline to move up and down:
+
+    ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+    ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+    :config
+
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+  		'("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+  		    nil
+  		    (window-parameters (mode-line-format . none)))))
+
+  ;; Consult users will also want the embark-consult package.
+  (use-package embark-consult
+    :ensure t ; only need to install it, embark loads it after consult if found
+    :hook
+    (embark-collect-mode . consult-preview-at-point-mode))
+
+  (use-package savehist
+    :ensure nil
+    :init
+    (savehist-mode))
+
+#+end_src
+
+* MODELINE
+
+The modeline is the bottom status bar that appears in Emacs windows. While you can create your own custom modeline, why go to the trouble when Doom Emacs already has a nice modeline package available. For more information o what is available to configure in the DOom modeline, check out: [[https://github.com/seagle0128/doom-modeline][Doom Modeline]]
+
+#+begin_src emacs-lisp
+
+  (use-package doom-modeline
+    :ensure t
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 35
+          doom-modeline-bar-width 5
+	  doom-modeline-persp-name t
+	  doom-modeline-persp-icon t))
+
+#+end_src
+
+* ORG MODE
+
+** Enable Table Of Contents
+
+#+begin_src emacs-lisp
+
+  (use-package toc-org
+    :ensure t
+    :commands toc-org-enable
+    :init (add-hook 'org-mode-hook 'toc-org-enable))
+  
+#+end_src
+
+* THEME
+
+#+begin_src emacs-lisp
+  (use-package solarized-theme
+    :ensure (:wait t)
+    :demand t
+    :config
+    (load-theme 'solarized-dark t))
+
+#+end_src
