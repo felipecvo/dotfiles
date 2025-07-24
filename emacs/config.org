@@ -5,6 +5,7 @@
 #+OPTIONS: toc:2
 
 * Table of Contents :toc:
+- [[#basic-setup][Basic setup]]
 - [[#elpaca-package-manager][Elpaca Package Manager]]
 - [[#evil-mode][Evil Mode]]
 - [[#ui-configuration][UI Configuration]]
@@ -31,6 +32,14 @@
   - [[#consult][Consult]]
   - [[#embark][Embark]]
 - [[#posframe][Posframe]]
+
+* Basic setup
+
+#+begin_src emacs-lisp
+  (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+#+end_src
 
 * Elpaca Package Manager
 
