@@ -8,6 +8,8 @@
 - [[#basic-setup][Basic setup]]
 - [[#elpaca-package-manager][Elpaca Package Manager]]
 - [[#evil-mode][Evil Mode]]
+- [[#which-key][Which-Key]]
+- [[#general-keybindings][General Keybindings]]
 - [[#ui-configuration][UI Configuration]]
   - [[#font-configuration][Font Configuration]]
   - [[#color-theme][Color Theme]]
@@ -21,6 +23,7 @@
   - [[#table-of-contents][Table Of Contents]]
   - [[#org-modern][Org Modern]]
   - [[#center-org-buffers][Center Org Buffers]]
+  - [[#org-agenda][Org Agenda]]
   - [[#habits][Habits]]
   - [[#refiling-and-archiving][Refiling and Archiving]]
   - [[#capture][Capture]]
@@ -39,6 +42,10 @@
   (set-language-environment "UTF-8")
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
+  (recentf-mode 1)
+
+  (defvar my-config-path
+    (expand-file-name "config.org" user-emacs-directory))
 #+end_src
 
 * Elpaca Package Manager
@@ -118,6 +125,43 @@ Because vim is awesome!
 
 #+end_src
 
+* Which-Key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init
+    (which-key-mode)
+    :config
+    (setq which-key-idle-delay 0.3))
+
+  (setq which-key-min-display-lines 10)
+#+end_src
+
+* General Keybindings
+
+#+begin_src emacs-lisp
+  (use-package general
+    :ensure t
+
+    :config
+    (general-evil-setup)
+
+    ;; set SPC as the global leader key
+    (general-create-definer fcvo/leader-keys
+      :states '(normal insert visual emacs)
+      :keymaps 'override
+      :prefix "SPC"
+      :global-prefix "M-SPC") ;; access leader in insert mode
+
+    (fcvo/leader-keys
+      "SPC" '(execute-extended-command :wk "M-x")
+      "." '(find-file :wk "Find file")
+      "f c" '((lambda () (interactive) (find-file my-config-path)) :wk "Edit emacs config")
+      "f a" '((lambda () (interactive) (find-file "~/org/agenda.org")) :wk "Edit agenda")
+      "f i" '((lambda () (interactive) (find-file "~/org/inbox.org")) :wk "Edit inbox")
+      "f h" '((lambda () (interactive) (find-file "~/org/habits.org")) :wk "Edit habits")
+      "f r" '(consult-recent-file :wk "Find recent files")))
+#+end_src
 
 * UI Configuration
 
@@ -317,6 +361,14 @@ This section contains the basic configuration for =org-mode= plus the configurat
     :hook (org-mode . fcvo/org-mode-visual-fill))
 #+end_src
 
+** Org Agenda
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files '("~/org/teaching-calendar.org"
+  			 "~/org/habits.org"
+  			 "~/org/inbox.org"))
+#+end_src
+
 ** Habits
 
 Tracking my habits
@@ -344,7 +396,13 @@ My second brain
     :ensure t
     :custom
     (setq org-roam-directory (file-truename "~/org-roam"))
-    (org-roam)
+    :config
+    (fcvo/leader-keys
+      "n" '(:ignore t :wk "Org Roam")
+      "n f" '(org-roam-node-find :wk "Node find")
+      "n i" '(org-roam-node-insert :wk "Node insert")
+      "n l" '(org-roam-buffer-toggle :wk "Toggle buffer"))
+    (org-roam-setup)
     (org-roam-db-autosync-mode)
   )
 #+end_src
@@ -391,6 +449,16 @@ A powerful modular minibuffer completion system using Vertico, Orderless, Margin
 
 ** Marginalia
 
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :after vertico
+    :bind (:map minibuffer-local-map
+  	    ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
+#+end_src
+
 ** Orderless
 
 A completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
@@ -409,7 +477,42 @@ A completion style that divides the pattern into space-separated components, and
 
 ** Consult
 
+#+begin_src emacs-lisp
+  (use-package consult
+    :ensure t
+    :bind (
+  	 ("C-c b" . consult-buffer))
+    :hook (completion-list-mode . consult-preview-at-point-mode)
+    :init
+    (advice-add #'register-preview :override #'consult-register-window)
+    (setq register-preview-delay 0.5)
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+    :config
+    ;; :preview-key on a per-command basis using the `consult-customize' macro.
+    (consult-customize
+    consult-theme :preview-key '(:debounce 0.2 any)
+    consult-ripgrep consult-git-grep consult-grep consult-man
+    consult-bookmark consult-recent-file consult-xref
+    consult--source-bookmark consult--source-file-register
+    consult--source-recent-file consult--source-project-recent-file
+    ;; :preview-key "M-."
+    :preview-key '(:debounce 0.4 any))
+
+    ;; Optionally configure the narrowing key.
+    ;; Both < and C-+ work reasonably well.
+    (setq consult-narrow-key "<") ;; "C-+"
+
+    ;; Optionally make narrowing help available in the minibuffer.
+    ;; You may want to use `embark-prefix-help-command' or which-key instead.
+    ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
+  )
+#+end_src
+
 ** Embark
+
+right click as command
 
 * Posframe
 
