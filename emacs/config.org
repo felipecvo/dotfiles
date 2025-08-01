@@ -384,10 +384,11 @@ Tracking my habits
 ** Refiling and Archiving
 
 #+begin_src emacs-lisp
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  (setq org-refile-targets '(("~/org/teaching.org" :maxlevel . 1)
+  			   ("~/org/initiatives.org" :maxlevel . 1)
+  			   ("~/org/done.org" :maxlevel . 1)))
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
   #+end_src
-
-*** TODO setup
 
 ** Capture
 
