@@ -365,6 +365,8 @@ This section contains the basic configuration for =org-mode= plus the configurat
 
 #+begin_src emacs-lisp
   (setq org-agenda-files '("~/org/teaching-calendar.org"
+  			 "~/org/teaching.org"
+  			 "~/org/initiatives.org"
   			 "~/org/habits.org"
   			 "~/org/inbox.org"))
 #+end_src
@@ -380,6 +382,10 @@ Tracking my habits
 #+end_src
 
 ** Refiling and Archiving
+
+#+begin_src emacs-lisp
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  #+end_src
 
 *** TODO setup
 
