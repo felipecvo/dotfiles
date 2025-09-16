@@ -46,6 +46,9 @@ ZSH_CUSTOM="$DOTFILES/zsh-custom"
 
 export PYTHON_AUTO_VRUN=true
 export PYTHON_VENV_NAME=".venv"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -61,6 +64,7 @@ plugins=(
   npm
   rbenv
   python
+  pyenv
   ssh-agent
   zsh-syntax-highlighting
 )
