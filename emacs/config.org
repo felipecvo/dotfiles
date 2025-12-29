@@ -15,6 +15,7 @@
   - [[#color-theme][Color Theme]]
   - [[#nerd-icons][Nerd Icons]]
   - [[#all-the-icons][All The Icons]]
+  - [[#configuração-de-emojis-para-windows][Configuração de Emojis para Windows]]
   - [[#modeline][Modeline]]
   - [[#show-invisibles][Show Invisibles]]
 - [[#backup][BACKUP]]
@@ -212,6 +213,7 @@ This section configures basic UI settings that remove unneeded elements to make 
 
   (set-face-attribute 'font-lock-keyword-face nil
       :slant 'italic)
+
 #+end_src
 
 ** Color Theme
@@ -268,6 +270,16 @@ This is an icon set that can be used with modeline, dasboard, dired, ibuffer and
     :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 #+end_src
 
+** Configuração de Emojis para Windows
+
+#+begin_src emacs-lisp
+  (when (eq system-type 'windows-nt)
+    (set-fontset-font t 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend)
+    (set-fontset-font t 'emoji (font-spec :family "Segoe UI Emoji") nil 'prepend)
+    ;; Melhorar a renderizacao no windows
+    (setq-default redisplay-dont-pause t))
+#+end_src
+
 ** Modeline
 
 The modeline is the bottom status bar that appears in Emacs windows. While you can create your own custom modeline, why go to the trouble when Doom Emacs already has a nice modeline package available. For more information o what is available to configure in the DOom modeline, check out: [[https://github.com/seagle0128/doom-modeline][Doom Modeline]]
@@ -315,19 +327,19 @@ The modeline is the bottom status bar that appears in Emacs windows. While you c
 This section contains the basic configuration for =org-mode= plus the configuration for Org agendas and capture templates.
 
 #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c l") #'org-store-link)
-    (global-set-key (kbd "C-c a") #'org-agenda)
-    (global-set-key (kbd "C-c c") #'org-capture)
+  (global-set-key (kbd "C-c l") #'org-store-link)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture)
 
-    (defun fcvo/org-mode-setup ()
-      ;;(org-indent-mode)
-      (visual-line-mode 1))
+  (defun fcvo/org-mode-setup ()
+    ;;(org-indent-mode)
+    (visual-line-mode 1))
 
-    (use-package org
-      :hook (org-mode . fcvo/org-mode-setup)
-      :config
-      (setq org-ellipsis " ▾")
-      (setq org-return-follows-link 1))
+  (use-package org
+    :hook (org-mode . fcvo/org-mode-setup)
+    :config
+    (setq org-ellipsis " ...")
+    (setq org-return-follows-link 1))
 #+end_src
 
 ** Table Of Contents
@@ -345,7 +357,9 @@ This section contains the basic configuration for =org-mode= plus the configurat
     :ensure t
     :config
     (add-hook 'org-mode-hook #'org-modern-mode)
-    (add-hook 'org-agenda-finalize-hook #'org-modern-agenda))
+    (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+    (set-face-attribute 'org-modern-symbol nil :family "Segoe UI Symbol"))
+
 #+end_src
 
 ** Center Org Buffers
