@@ -28,7 +28,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # export PATH="./bin:$PATH"
 export PATH="$PATH:/var/lib/snapd/snap/bin"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.terragrunt/bin:$PATH"
 
 export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+
+export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 # vim:ft=sh
