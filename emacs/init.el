@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (setq vc-follow-symlinks t)
 
 (org-babel-load-file

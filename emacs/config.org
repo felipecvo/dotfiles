@@ -40,6 +40,7 @@
 * Basic setup
 
 #+begin_src emacs-lisp
+  ;; -*- lexical-binding: t; -*-
   (set-language-environment "UTF-8")
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
@@ -52,15 +53,16 @@
 * Elpaca Package Manager
 
 #+begin_src emacs-lisp
-  (defvar elpaca-installer-version 0.11)
+  (setq elpaca-core-date '(20260824))
+  (defvar elpaca-installer-version 0.12)
   (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
   (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+  (defvar elpaca-sources-directory (expand-file-name "sources/" elpaca-directory))
   (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
                                 :ref nil :depth 1 :inherit ignore
                                 :files (:defaults "elpaca-test.el" (:exclude "extensions"))
-                                :build (:not elpaca--activate-package)))
-  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+                                :build (:not elpaca-activate)))
+  (let* ((repo  (expand-file-name "elpaca/" elpaca-sources-directory))
          (build (expand-file-name "elpaca/" elpaca-builds-directory))
          (order (cdr elpaca-order))
          (default-directory repo))
@@ -327,6 +329,8 @@ The modeline is the bottom status bar that appears in Emacs windows. While you c
 This section contains the basic configuration for =org-mode= plus the configuration for Org agendas and capture templates.
 
 #+begin_src emacs-lisp
+  (setq org-directory "~/org/")
+  (setq org-default-notes-file (expand-file-name "inbox.org" org-directory))
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
@@ -408,21 +412,62 @@ Tracking my habits
 
 *** TODO setup
 
+#+begin_src emacs-lisp
+
+(setq org-capture-templates
+      '(("i" "Inbox" entry
+         (file org-default-notes-file)
+         "* %?\n  %U\n  %a\n")))
+
+#+end_src
+
 ** Org Roam
 
 My second brain
 
 #+begin_src emacs-lisp
+    ;; Org-roam → magit-section requires a newer Transient
+    ;; than the version bundled with Emacs 30.2.
+    (use-package transient
+      :ensure (:wait t)
+      :demand t)
+
   (use-package org-roam
     :ensure t
+
     :custom
-    (setq org-roam-directory (file-truename "~/org-roam"))
+    (org-roam-directory (file-truename "~/org-roam"))
+    (org-roam-dailies-directory "daily/")
+
     :config
+    (setq org-roam-dailies-capture-templates
+          '(("a" "Accomplishment" entry
+             "* %<%H:%M> %?"
+             :target (file+head+olp
+                      "%<%Y-%m-%d>.org"
+                      "#+title: %<%Y-%m-%d %A>\n"
+                      ("Accomplishments"))
+             :empty-lines 1)
+
+            ("n" "Note" entry
+             "* %<%H:%M> %?"
+             :target (file+head+olp
+                      "%<%Y-%m-%d>.org"
+                      "#+title: %<%Y-%m-%d %A>\n"
+                      ("Notes"))
+             :empty-lines 1)))
+
     (fcvo/leader-keys
       "n" '(:ignore t :wk "Org Roam")
       "n f" '(org-roam-node-find :wk "Node find")
       "n i" '(org-roam-node-insert :wk "Node insert")
-      "n l" '(org-roam-buffer-toggle :wk "Toggle buffer"))
+      "n l" '(org-roam-buffer-toggle :wk "Toggle buffer")
+
+      ;; Daily notes
+      "n d"   '(:ignore t :wk "Daily")
+      "n d d" '(org-roam-dailies-goto-today :wk "Today")
+      "n d c" '(org-roam-dailies-capture-today :wk "Capture today"))
+
     (org-roam-setup)
     (org-roam-db-autosync-mode)
   )
